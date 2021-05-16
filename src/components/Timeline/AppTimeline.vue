@@ -39,19 +39,21 @@
 
 <script>
 
+import EditDialog from './EditDialog.vue';
 export default {
-    emits: ['delete'],
+    comnponents: {
+        EditDialog
+    },
+    emits: ['delete', 'save-edit'],
     props: {
         id: {
             type: String,
             required: true
         },
         date: {
-            type: String,
             required: true
         },
         time: {
-            type: String,
             required: true
         },
         title: {
@@ -78,8 +80,7 @@ export default {
             this.$emit('delete', this.id);
         },
         openEditingModal() {
-            this.isEditing = !this.isEditing;
-            this.$emit('edit', this.id, this.title, this.message);
+            this.isEditing = true;
         },
         saveEdit(id, newTitle, newMessage) {
             if (this.title == newTitle && this.message == newMessage) {

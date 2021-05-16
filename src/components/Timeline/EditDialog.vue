@@ -5,7 +5,7 @@
 
         <!-- Crerate dialog to edit posts-->
         <dialog open>
-            <form @submit.prevent="">
+            <form @submit.prevent>
                 <div class="form-control title-container" >
                     <label for="post-title">Title</label>
                     <input name="post-title" type="text" v-model="newTitle" />
@@ -17,8 +17,8 @@
                     v-model.trim="newMessage" />
                 </div>
                 <div>
-                    <button class="btn btn-primary m-2" @click="saveEdit">Save</button>
-                    <button class="btn btn-primary m-2" @click="closeDialog">Close</button>
+                    <button type="button" class="btn btn-primary m-2" @click="saveEdit">Save</button>
+                    <button type="button"  class="btn btn-primary m-2" @click="closeDialog">Close</button>
                 </div>
             </form>
         </dialog>
@@ -43,11 +43,10 @@ export default {
             required: true
         },
     },
-    emits: ['delete', 'save-edit', 'close-dialog'],
+    emits: ['save-edit', 'close-dialog'],
     name: 'EditDialog',
     data() {
         return {
-            isEditing: true,
             newTitle: this.title,
             newMessage: this.message
         }
