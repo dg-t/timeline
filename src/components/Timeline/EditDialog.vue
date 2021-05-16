@@ -6,17 +6,16 @@
         <!-- Crerate dialog to edit posts-->
         <dialog open>
             <form @submit.prevent>
-                <div class="form-control title-container" >
-                    <label for="post-title">Title</label>
-                    <input name="post-title" type="text" v-model="newTitle" />
+                <div class="my-2 py-2" >
+                    <input class="form-field" name="post-title" type="text" v-model="newTitle" />
                 </div>
                 <div>
                     <textarea 
-                    class="form-text form-control" 
+                    class="form-text form-field" 
                     rows="3" 
                     v-model.trim="newMessage" />
                 </div>
-                <div>
+                <div class="m-2">
                     <button type="button" class="btn btn-primary m-2" @click="saveEdit">Save</button>
                     <button type="button"  class="btn btn-primary m-2" @click="closeDialog">Close</button>
                 </div>
@@ -66,18 +65,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-/* DIALOG BG */
-
-.blur-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
-  z-index: 10;
-}
-
 /* DIALOG */
 
 dialog {
@@ -92,6 +79,22 @@ dialog {
   padding: 0;
   margin: 0;
   overflow: hidden;
+}
+
+button {
+    font-size: 14px;
+}
+
+/* DIALOG BG */
+
+.blur-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10;
 }
 
 </style>

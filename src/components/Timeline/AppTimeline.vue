@@ -1,49 +1,44 @@
 <template>
-    <section class="container-fluid timeline-section">
+    <section class="container-fluid timeline-section row">
 
         <!-- Display simple timeline -->
-        <div class="timeline-post row">
+        <!-- Show notification for edited posts -->
+        <div v-if=isEdited class="alert alert-info">Your post was edited succesfully</div>
 
-            <!-- Show notification for edited posts -->
-            <div v-if=isEdited>Your post was edited succesfully</div>
-
-            <!-- Date and time of post creation -->
-            <div class="date-container col-3">
+        <!-- Date and time of post creation -->
+        <div class="date-container col-sm-3">
+            <i class="far fa-clock time-icon"></i>
+            <div>
                 <p class="date">{{date}}</p>
                 <p class="date">{{time}}</p>
             </div>
+        </div>
 
-            <!-- Post description -->
-            <div class="post-description col-9">
-                <h5 class="post-title">{{title}}</h5>
-                <p class="post-message">{{message}}</p>
+        <!-- Post description -->
+        <div class="post-description col-sm-9">
+            <h5>{{title}}</h5>
+            <p>{{message}}</p>
 
-                <!-- Button trigger modal to edit post -->
-                <button class="btn btn-primary" @click="openEditingModal">Edit</button>
-                <!-- Display edit dialog -->
-                <edit-dialog 
-                    v-if="isEditing" 
-                    :id="id"
-                    :title="title" 
-                    :message="message"
-                    @save-edit="saveEdit"
-                    @close-dialog="closeDialog" />
-                
-                <!-- Delete post -->
-                <button type="button" class="btn btn-primary" @click="deletePost">Delete</button>
-            </div>
+            <!-- Button trigger modal to edit post -->
+            <button class="btn btn-primary custom-button" @click="openEditingModal">Edit</button>
+            <!-- Display edit dialog -->
+            <edit-dialog 
+                v-if="isEditing" 
+                :id="id"
+                :title="title" 
+                :message="message"
+                @save-edit="saveEdit"
+                @close-dialog="closeDialog" />
+            
+            <!-- Delete post -->
+            <button type="button" class="btn delete-button custom-button" @click="deletePost">Delete</button>
         </div>
 
     </section>
 </template>
 
 <script>
-
-import EditDialog from './EditDialog.vue';
 export default {
-    comnponents: {
-        EditDialog
-    },
     emits: ['delete', 'save-edit'],
     props: {
         id: {
@@ -103,52 +98,82 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-/* TIMELINE */
+/** BUTTONS */
 
-.timeline-section {
-    border-left: 2px solid #ccc;
+.custom-button {
+    margin-right: 30px;
+    font-size: 14px;
 }
 
-div.timeline-post {
-    background-color: #fff;
-    padding: 10px 25px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    position: relative;
+.delete-button {
+    background-color: rgb(255, 159, 159);
 }
 
-div.timeline-post:before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #000;
-    border: 3px solid #ddd;
-    position: absolute;
-    top: 50px;
-    left: -22px;
+/* POST DESCRIPTION */
 
-}
-
-div.timeline-post:after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-color: transparent #ddd transparent transparent !important;
-    border-width: 10px;
-    position: absolute;
-    border: 8px solid #ddd;
-    position: absolute;
-    top: 47px;
-    left: -17px;
-
+.post-description {
+    padding-left: 30px;
+    border-left: 2px solid green;
 }
 
 /* DATE */
 
-.date {
-    font-size: 12px;
+.date-container {
+    margin: auto 0;
+    padding: 0;
+    display:flex;
 }
 
+.date {
+    font-size: 12px;
+    margin: 0;
+}
+
+.time-icon {
+    font-size: 1.2em;
+    width: 2em;
+    line-height: 1.8em;
+    color: #fdce5c;
+}
+
+/* TIMELINE SECTION */
+
+.timeline-section {
+    border-left: 2px solid #fdce5c;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px 10px;
+    margin-left: 40px;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+/** MEDIA QUERY */
+
+@media only screen and (max-width: 767px)  {
+
+  /* TIMELINE SECTION */
+
+    .timeline-section {
+        background-color: #fff;
+        padding: 20px 10px;
+        margin: auto;
+        font-size: 14px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    /* POST DESCRIPTION */
+
+    .post-description {
+        padding-left: 30px;
+        border-left: 0;
+    }
+
+    /* DATE */
+    .date-container {
+        margin: 10px 28px;
+        padding: 0;
+        display:flex;
+    }
+}
 </style>

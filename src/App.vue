@@ -1,19 +1,19 @@
 <template>
-  <section class="container-fluid row">
-
+  <section class="container-fluid row mx-0">
+    <app-header />
     <!-- Show notification for create or delete posts -->
-    <div v-if=isCretaedOrDeleted  class="fixed-top alert" :class="alert-success" @click="createOrDeletePostAlert">Your post was succesfully {{action}}.</div>
+    <div v-if=isCretaedOrDeleted  class="fixed-top alert" :class="notification" @click="createOrDeletePostAlert">Your post was succesfully {{action}}.</div>
 
     <!-- Display Form -->
-    <div class="col-md-5 col-lg-4">
+    <div class="col-md-5 col-lg-4 mb-5">
       <app-form @post-data="createPost" />
     </div>
 
     <!-- Display timeline -->
-    <div class="col-md-7 col-lg-8">
+    <div class="col-md-7 col-lg-8 mb-4">
       <app-timeline
-      class="col-md-7 col-lg-8"
-        v-for="post in posts" 
+        v-for="(post, index) in posts" 
+        :class="{'alternate-section-color': index % 2}"
         :key=post.id 
         :id=post.id
         :date=post.date
@@ -24,10 +24,12 @@
         @save-edit="updatePost" />
     </div>
 
-    <!-- Button for GET request with Axios -->
+    <!-- Button for GET request with Axios - uncomment to use -->
+    <!--
     <div>
       <button class="btn btn-secondary" @click="getRequestWithAxios">GET</button>
     </div>
+    -->
 
   </section>
 </template>
@@ -44,7 +46,7 @@ export default {
           date: '5/15/2021',
           time: '3:23:30 PM',
           title: 'myTitleOne',
-          message: 'myMessageTwo'
+          message: 'myMessageOne'
         },
         {
           id: '1',
@@ -62,7 +64,8 @@ export default {
         }
       ],
       isCretaedOrDeleted: false,
-      action: ''
+      action: '',
+      notification: ''
     }
   },
   methods: {
@@ -76,6 +79,7 @@ export default {
         message: message
       }
       this.posts.push(newPost);
+      this.notification = 'alert-success'
       this.createOrDeletePostAlert('created');
     },
     updatePost(id, newTitle, newMessage) {
@@ -88,6 +92,7 @@ export default {
     },
     deletePost(postId) {
       this.posts = this.posts.filter(post => post.id !== postId);
+      this.notification = 'alert-warning'
       this.createOrDeletePostAlert('deleted');
 
     },
@@ -98,11 +103,12 @@ export default {
     },
 
     /**
-     * CRUD OPERATION WITH AXIOS - OPERATION ARE MADE TO A REALTIME FIREBASE DB
-     * To make it work:
-     * - comment the functions with the same name declared above 
-     * and uncomment the fucntion below.
-     * Also, uncomment the Axios import at the beginning of the script.
+     * CRUD OPERATION WITH AXIOS (are working) - OPERATION ARE MADE TO A REALTIME FIREBASE DB
+     * To make it work, need some modification in this App.vue file:
+     * - comment the functions with the same name declared above.
+     * - uncomment the function below.
+     * - uncomment the Axios import at the beginning of the script.
+     * - uncomment GET button in the html template.
      */
     
     // GET REQUEST - AXIOS
@@ -177,7 +183,7 @@ export default {
 
 <style>
 
-/* GENERAL */
+/* GLOBAL */
 
 * {
     margin: 0;
@@ -185,6 +191,7 @@ export default {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: 'Lato', sans-serif;
+    letter-spacing: 1px;;
 }
 
 html {
@@ -192,6 +199,28 @@ html {
     font-size: 20px;
     font-weight: 300;
     text-rendering: optimizeLegibility;
+}
+
+/** HEADERS */
+
+h1, h5 {
+    color:#2d3e60;
+    font-weight: 700;
+}
+
+/** FORM */
+
+.form-field {
+    width: 90%;
+    margin-left: 5%;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/** SECTION BG COLOR */
+
+.alternate-section-color {
+    background-color: #f9f9f9 !important;
 }
 
 </style>
